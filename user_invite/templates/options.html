@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+      {% block title %}
+
+      Choose option
+
+      {% endblock %}
+
+
+   {% block content %}
+
+   <h1>Do you want to accept the invite to join the room?</h1>
+
+      <form method="post" action="{% url 'after_accepts_invite' user.id invite.room_id invite_method %}">
+
+      {% csrf_token %}
+
+      <input type="submit" value="Accept">
+      </form>
+
+      <br/>
+
+      <form action="{% url 'after_rejects_invite' user.id invite.room_id invite_method %}" method="POST">
+         {% csrf_token %}
+         <input type="submit" value="Reject">
+      </form>
+
+      <br/>
+
+
+   {% endblock %}
+

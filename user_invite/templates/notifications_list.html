@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Notifications
+{% endblock %}
+
+
+{% block content %}
+
+Notifications
+<br>
+<br>
+{% for notif in notifications %}
+
+        <a href="{% url 'create_comment_notification' notif.id %}">
+          {{ notif.title }}
+        </a> <br>
+        <a href="{% url 'create_comment_notification' notif.id %}">{{ notif.body }}</a>
+        <br>
+        {{ notif.date_time }}
+        <br> <br>
+
+
+    {% endfor %}
+
+{% endblock %}

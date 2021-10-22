@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Input mail and room id
+{% endblock %}
+
+{% block content %}
+
+<h1>Enter email and room id</h1>
+
+<br>
+<form action="" method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+      <div>
+         {{ field.label_tag }} <br>
+         {{ field.errors }}
+         {{ field }}
+      </div>
+      <br>
+    {% endfor %}
+    <input type="submit" value="Enter">
+</form>
+<br>
+
+{% endblock %}

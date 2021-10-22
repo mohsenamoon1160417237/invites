@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+Home
+
+{% endblock %}
+
+
+{% block content %}
+
+    Home!
+    <br/>
+    <br>
+
+    
+<br>
+    <form action="{% url 'check_invite_link' user.id room.id 'email' %}" method="post" >
+
+        {% csrf_token %}
+
+        <input type='submit' value='Send Email'>
+
+    </form>
+
+    <br>
+
+    <form action="{% url 'check_invite_link' user.id room.id 'sms' %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Send SMS">
+    </form>
+
+    <br><br><br>
+
+    <a href="{% url 'notifications_list' user.id %}">Notifications</a>
+
+
+{% endblock %}
