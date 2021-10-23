@@ -3,10 +3,7 @@ from .utils.Imports import *
 
 class Post(GenericAPIView):
 
-    serializer_class = PostLogSerializer
-    queryset = PostLog.objects.all()
-
-    def post(self , request , post_id=None):
+    def post(self , request , post_id):
 
         tags = []
         labels = []
@@ -17,12 +14,11 @@ class Post(GenericAPIView):
             post_time = request.data['post_time']
 
         post_data = {
-            'user' : request.data['user_id'],
+            'user' : request.data['user'],
             'title' : request.data['title'] ,
             'content' : request.data['content'],
             'status' : request.data['status'],
             'post_time' : post_time,
-            'files' : request.data['files'],
             'tags' : request.data['tags'],
             'labels' : request.data['labels']
         }
@@ -31,41 +27,23 @@ class Post(GenericAPIView):
 
         if post_serialized.is_valid(raise_exception=True):
 
-            if post_id:
-                post = get_object_or_404(PostLog , id=post_id)
-                post.title = post_data['title']
-                post.content = post_data['content']
-                post.status = post_data['status']
-                post.post_time = post_time
-                if request.data['status'] == PostLog.SCHEDULE:
-                   post_schedule.apply_async(args=[post.id] ,
-                                             eta=post_time)
-                else:
-                    post.save()
+            post = get_object_or_404(PostLog , id=post_id)
+            post.title = post_data['title']
+            post.content = post_data['content']
+            post.status = post_data['status']
+            post.post_time = post_time
+            for file in post.files.all():
+                files.append({
+                    'post_time' : file.date_uploaded,
+                    'url' : file.url
+                    })
 
+            if request.data['status'] == PostLog.SCHEDULE:
+                post_schedule.apply_async(args=[post.id] ,
+                                         eta=post_time)
             else:
+                post.save()
 
-                if request.data['status'] == PostLog.SCHEDULE:
-                    post = post_serialized.save()
-                    post_schedule.apply_async(args=[post.id] ,
-                                              eta=post_time)
-                else:
-                    post = post_serialized.save()
-
-            for file in request.data['files']:
-
-                file_data = {
-                    'post' : post.id,
-                    'file' : file
-                }
-
-                file_serialized = FileUploadSerializer(data=file_data)
-
-                if file_serialized.is_valid(raise_exception=True):
-                    file = file_serialized.save()
-                    file_data.pop('file')
-                    file_data['url'] = file.url
-                    files.append(file_data)
 
             for tag in request.data['tags']:
 

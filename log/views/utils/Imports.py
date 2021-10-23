@@ -15,3 +15,4 @@ from log.model_serializers.FileUpload import FileUploadSerializer
 from accounts.models.User import User
 import datetime
 from log.tasks.post_schedule import post_schedule
+from log.views.modules.File import File

@@ -19,8 +19,9 @@ class PostLog(models.Model):
     user = models.ForeignKey(User,
                              on_delete=models.CASCADE,
                              related_name='posts')
-    title = models.CharField(max_length=30)
-    content = models.TextField()
+    title = models.CharField(max_length=30,
+                             null=True)
+    content = models.TextField(null=True)
     status = models.CharField(choices=STATUS,
                               max_length=8,
                               default=DRAFT)

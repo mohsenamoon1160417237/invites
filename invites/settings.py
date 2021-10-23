@@ -166,8 +166,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR , 'invites/static')
 ]
 
+
+MEDIA_ROOT = os.path.join(BASE_DIR , 'files')
 MEDIA_URL = '/files/'
-MEDIA_ROOT = 'files'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'dramatic225@gmail.com'
