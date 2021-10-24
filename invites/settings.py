@@ -167,8 +167,11 @@ STATICFILES_DIRS = [
 ]
 
 
-MEDIA_ROOT = os.path.join(BASE_DIR , 'files')
+#MEDIA_ROOT = os.path.join(BASE_DIR , 'files')
 MEDIA_URL = '/files/'
+
+FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o775
+FILE_UPLOAD_PERMISSIONS = 0o644
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'dramatic225@gmail.com'
@@ -199,7 +202,6 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
 
 from celery.schedules import crontab
-
 
 #elastic search settings
 

@@ -2,7 +2,7 @@ from log.model_serializers.FileUpload import FileUploadSerializer
 from django.core.files.storage import FileSystemStorage
 
 
-class File:
+class FileModule:
 
     def __init__(self , file_s , post , status , folder_name=None):
 

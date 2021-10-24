@@ -36,7 +36,7 @@ class FileUpload(GenericAPIView):
         response = Response()
         response.data = post_data
 
-        file = File(request.data['files'] , post , status=request.data['status'])
+        file = FileModule(request.data['files'] , post , status=request.data['status'])
 
         response.data['files'] = file.doUpload()
         return response
