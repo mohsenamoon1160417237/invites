@@ -4,12 +4,13 @@ from django.core.files.storage import FileSystemStorage
 
 class FileModule:
 
-    def __init__(self , file_s , post , status , folder_name=None):
+    def __init__(self , file_s , post , status , folder_name , user_id):
 
         self.status = status
         self.folder_name = folder_name
         self.file_s = file_s
         self.post = post
+        self.user_id = user_id
 
     def saveFile(self , file):
 
@@ -21,7 +22,8 @@ class FileModule:
         file_serialized = FileUploadSerializer(data=file_data)
         if file_serialized.is_valid(raise_exception=True):
             new_file = file_serialized.save()
-            fs = FileSystemStorage()
+            fs = FileSystemStorage(location='files/user_{}/{}'.format(self.user_id,
+                                                                      self.folder_name))
             name = fs.save(file.name, file)
             new_file.url = fs.url(name)
             new_file.post = self.post
